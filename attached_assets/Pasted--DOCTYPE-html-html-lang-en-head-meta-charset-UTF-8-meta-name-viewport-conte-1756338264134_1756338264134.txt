@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Joe Revay for School Board</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background-color: #0b1e3f; /* Deep navy blue */
+      color: white;
+    }
+
+    header {
+      padding: 60px 20px;
+      text-align: center;
+      background-color: #0b1e3f;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.8em;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #ffffffcc;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    section h2 {
+      font-size: 2em;
+      border-bottom: 2px solid white;
+      padding-bottom: 10px;
+    }
+
+    .wave {
+      position: relative;
+      height: 100px;
+      background: white;
+      clip-path: ellipse(150% 100% at 50% 0%);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #06142d;
+      font-size: 0.9em;
+      color: #ffffff88;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Joe Revay</h1>
+    <p>Every Student. Every Family. Every Future.</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#platform">Platform</a>
+      <a href="#volunteer">Get Involved</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="wave"></div>
+
+  <section id="about">
+    <h2>About Joe</h2>
+    <p>Joe Revay is a dedicated community member and advocate for student success, running for a seat on the Twinsburg City School District Board. With a passion for education and a strong connection to the Twinsburg community, Joe is committed to building a school system that serves every student and family.</p>
+  </section>
+
+  <section id="platform">
+    <h2>Platform</h2>
+    <ul>
+      <li>✅ Support academic excellence for all learners</li>
+      <li>✅ Ensure transparency and fiscal responsibility</li>
+      <li>✅ Empower educators with tools and support</li>
+      <li>✅ Encourage strong parent and community engagement</li>
+    </ul>
+  </section>
+
+  <section id="volunteer">
+    <h2>Get Involved</h2>
+    <p>Want to support Joe's campaign? Whether you're interested in volunteering, hosting a yard sign, or sharing with friends — your help matters.</p>
+    <p>Email <a href="mailto:joerevay@example.com">joerevay@example.com</a> to get started.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>📧 <a href="mailto:joerevay@example.com">joerevay@example.com</a></p>
+    <p>📍 Twinsburg, Ohio</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Joe Revay for School Board. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
