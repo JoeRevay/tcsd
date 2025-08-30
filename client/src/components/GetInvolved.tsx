@@ -83,6 +83,35 @@ export default function GetInvolved() {
     }
   };
 
+  const handleJoinTeam = () => {
+    const form = document.getElementById('volunteer-form');
+    if (form) {
+      // Scroll to form with offset for header
+      const headerOffset = 100;
+      const elementPosition = form.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+
+      // Show a helpful message and focus on first input
+      toast({
+        title: "Ready to join the team?",
+        description: "Fill out the form below to get started.",
+      });
+
+      // Focus on the first input field after a short delay
+      setTimeout(() => {
+        const firstInput = form.querySelector('input[name="firstName"]') as HTMLInputElement;
+        if (firstInput) {
+          firstInput.focus();
+        }
+      }, 800);
+    }
+  };
+
   return (
     <section id="volunteer" className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -133,8 +162,9 @@ export default function GetInvolved() {
               Join our team of volunteers for placing yard signs, door-to-door canvassing, and event support.
             </p>
             <button 
-              onClick={() => document.getElementById('volunteer-form')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={handleJoinTeam}
               className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200 font-semibold"
+              data-testid="join-team-button"
             >
               Join the Team
             </button>
