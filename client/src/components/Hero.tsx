@@ -53,13 +53,13 @@ export default function Hero() {
         </div>
       </div>
       
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+      <div className="absolute bottom-16 sm:bottom-8 left-1/2 transform -translate-x-1/2">
         <button 
           onClick={() => scrollToSection('about')} 
-          className="text-foreground hover:text-accent transition-colors duration-200"
+          className="text-foreground hover:text-accent transition-colors duration-200 p-2"
           data-testid="hero-scroll-down"
         >
-          <svg className="w-8 h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-8 h-8 sm:w-8 sm:h-8 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
           </svg>
         </button>
