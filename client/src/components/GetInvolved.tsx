@@ -55,6 +55,34 @@ export default function GetInvolved() {
     });
   };
 
+  const handleShareCampaign = async () => {
+    const shareData = {
+      title: 'Joe Revay for Twinsburg School Board',
+      text: 'Support Joe Revay for Twinsburg City School District Board. Every Student. Every Family. Every Future.',
+      url: window.location.href
+    };
+
+    try {
+      // Try to use the Web Share API if available (mobile devices)
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copy URL to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Campaign link copied!",
+          description: "Share it with your friends and family.",
+        });
+      }
+    } catch (error) {
+      // If all else fails, show the URL for manual sharing
+      toast({
+        title: "Share this campaign",
+        description: window.location.href,
+      });
+    }
+  };
+
   return (
     <section id="volunteer" className="py-20 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,7 +103,11 @@ export default function GetInvolved() {
             <p className="text-muted-foreground mb-6">
               Share Joe's message with friends, family, and neighbors. Word of mouth is our most powerful tool.
             </p>
-            <button className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 font-semibold">
+            <button 
+              onClick={handleShareCampaign}
+              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 font-semibold"
+              data-testid="share-campaign-button"
+            >
               Share Campaign
             </button>
           </div>
