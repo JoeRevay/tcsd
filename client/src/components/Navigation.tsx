@@ -48,7 +48,7 @@ export default function Navigation() {
             >
               Joe Revay
             </button>
-            <span className="ml-2 text-sm text-blue-300 hidden sm:inline">for Twinsburg School Board</span>
+            <span className="ml-2 text-xs sm:text-sm text-blue-300">for Twinsburg School Board</span>
           </div>
           
           {/* Desktop Navigation */}
