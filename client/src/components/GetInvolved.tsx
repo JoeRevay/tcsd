@@ -94,24 +94,33 @@ export default function GetInvolved() {
 
         {/* CTA cards with links (not submit buttons) */}
         <div className="grid gap-6 md:grid-cols-3 mb-12">
-          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border relative">
             <h3 className="text-xl font-semibold mb-2">Door Knocking</h3>
             <p className="text-muted-foreground mb-4">Help us reach voters across the district.</p>
-            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+            <a
+              href="#join"
+              className="relative z-10 inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition"
+            >
               I’m Interested
             </a>
           </div>
-          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border relative">
             <h3 className="text-xl font-semibold mb-2">Phone Banking</h3>
             <p className="text-muted-foreground mb-4">Make calls to inform and mobilize supporters.</p>
-            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+            <a
+              href="#join"
+              className="relative z-10 inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition"
+            >
               I’m Interested
             </a>
           </div>
-          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border relative">
             <h3 className="text-xl font-semibold mb-2">Events</h3>
             <p className="text-muted-foreground mb-4">Host a meet-and-greet or help at campaign events.</p>
-            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+            <a
+              href="#join"
+              className="relative z-10 inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition"
+            >
               I’m Interested
             </a>
           </div>
@@ -245,5 +254,6 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
