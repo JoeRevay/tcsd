@@ -11,7 +11,7 @@ interface JoinFormData {
   message?: string;
 }
 
-export default function JoinCampaign() {
+export default function GetInvolved() {
   const { toast } = useToast();
   const [formData, setFormData] = useState<JoinFormData>({
     firstName: "",
@@ -46,8 +46,7 @@ export default function JoinCampaign() {
     try {
       const formEl = e.currentTarget;
       const payload = new FormData(formEl);
-      // Netlify requires the form-name field
-      payload.append("form-name", "join");
+      payload.append("form-name", "join"); // required by Netlify
 
       await fetch("/", {
         method: "POST",
@@ -80,11 +79,12 @@ export default function JoinCampaign() {
   };
 
   return (
-    <section id="join" className="py-20 bg-muted">
+    <section id="get-involved" className="py-20 bg-muted">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Join Our Campaign
+            Get Involved
           </h2>
           <div className="h-1 w-16 bg-accent mx-auto mb-6" />
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -92,7 +92,35 @@ export default function JoinCampaign() {
           </p>
         </div>
 
-        <div className="bg-background rounded-xl p-8 shadow-lg border border-border max-w-3xl mx-auto">
+        {/* CTA cards with links (not submit buttons) */}
+        <div className="grid gap-6 md:grid-cols-3 mb-12">
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+            <h3 className="text-xl font-semibold mb-2">Door Knocking</h3>
+            <p className="text-muted-foreground mb-4">Help us reach voters across the district.</p>
+            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+              I’m Interested
+            </a>
+          </div>
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+            <h3 className="text-xl font-semibold mb-2">Phone Banking</h3>
+            <p className="text-muted-foreground mb-4">Make calls to inform and mobilize supporters.</p>
+            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+              I’m Interested
+            </a>
+          </div>
+          <div className="bg-background rounded-xl p-6 shadow-lg border border-border">
+            <h3 className="text-xl font-semibold mb-2">Events</h3>
+            <p className="text-muted-foreground mb-4">Host a meet-and-greet or help at campaign events.</p>
+            <a href="#join" className="inline-block bg-accent text-accent-foreground px-4 py-2 rounded-lg hover:bg-accent/90 transition">
+              I’m Interested
+            </a>
+          </div>
+        </div>
+
+        {/* Join form (Netlify Forms) */}
+        <div id="join" className="bg-background rounded-xl p-8 shadow-lg border border-border max-w-3xl mx-auto">
+          <h3 className="text-2xl font-bold text-foreground mb-6">Join Our Campaign</h3>
+
           <form
             onSubmit={handleSubmit}
             name="join"
@@ -101,7 +129,7 @@ export default function JoinCampaign() {
             data-netlify-honeypot="bot-field"
             className="space-y-6"
           >
-            {/* Netlify required hidden fields */}
+            {/* Required by Netlify */}
             <input type="hidden" name="form-name" value="join" />
             <input type="hidden" name="bot-field" />
 
@@ -204,6 +232,7 @@ export default function JoinCampaign() {
               />
             </div>
 
+            {/* Only this button submits the form */}
             <button
               type="submit"
               className="w-full bg-accent text-accent-foreground py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
@@ -216,4 +245,5 @@ export default function JoinCampaign() {
     </section>
   );
 }
+
 
