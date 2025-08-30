@@ -28,9 +28,9 @@ export default function Contact() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
+      e.preventDefault();
       toast({
         title: "Required fields missing",
         description: "Please fill in all required fields.",
@@ -39,20 +39,24 @@ export default function Contact() {
       return;
     }
 
-    console.log('Contact form submission:', formData);
-    
+    // Show success message
     toast({
       title: "Message sent!",
       description: "Thank you for your message. Joe will get back to you soon.",
     });
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      subject: "General Inquiry",
-      message: ""
-    });
+    // Reset form after a brief delay to allow Netlify submission
+    setTimeout(() => {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        subject: "General Inquiry",
+        message: ""
+      });
+    }, 100);
+    
+    // Allow native form submission to proceed for Netlify
   };
 
   return (
@@ -108,7 +112,14 @@ export default function Contact() {
           <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
             <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">Send a Message</h3>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form 
+              name="contact-form" 
+              method="POST" 
+              data-netlify="true"
+              onSubmit={handleSubmit} 
+              className="space-y-6"
+            >
+              <input type="hidden" name="form-name" value="contact-form" />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
