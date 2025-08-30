@@ -1,46 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1"
-    />
-    <title>Joe Revay for TCSD</title>
-    <meta name="description" content="Join Joe Revay's school board campaign." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>Joe Revay for School Board - Every Student. Every Family. Every Future.</title>
+    <meta name="description" content="Joe Revay is running for Twinsburg City School District Board. Supporting academic excellence, transparency, educator empowerment, and community engagement for every student's success." />
+    
+    <!-- Open Graph tags for social media -->
+    <meta property="og:title" content="Joe Revay for School Board - Every Student. Every Family. Every Future." />
+    <meta property="og:description" content="Supporting academic excellence, transparency, and community engagement in Twinsburg schools." />
+    <meta property="og:type" content="website" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
+  <!-- Hidden static form so Netlify detects it at build time -->
+<form name="contact" netlify hidden>
+  <input type="text" name="firstName" />
+  <input type="text" name="lastName" />
+  <input type="email" name="email" />
+  <input type="text" name="subject" />
+  <textarea name="message"></textarea>
+</form>
+
   <body>
     <div id="root"></div>
-
-    <!-- Vite entry -->
     <script type="module" src="/src/main.tsx"></script>
-
-    <!-- Replit dev banner (kept from your project) -->
-    <script
-      type="text/javascript"
-      src="https://replit.com/public/js/replit-dev-banner.js"
-    ></script>
-
-    <!-- Netlify static forms (MUST be inside <body>) -->
-    <!-- Contact form (for detection at build time) -->
-    <form name="contact" netlify hidden>
-      <input type="text" name="firstName" />
-      <input type="text" name="lastName" />
-      <input type="email" name="email" />
-      <input type="text" name="subject" />
-      <textarea name="message"></textarea>
-    </form>
-
-    <!-- Join form (for detection at build time) -->
-    <form name="join" netlify hidden>
-      <input type="text" name="firstName" />
-      <input type="text" name="lastName" />
-      <input type="email" name="email" />
-      <input type="tel" name="phone" />
-      <input type="text" name="availability" />
-      <input type="text" name="interests" />
-      <textarea name="message"></textarea>
-    </form>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
   </body>
 </html>
-

@@ -79,7 +79,7 @@ export default function GetInvolved() {
   };
 
   return (
-    <section id="volunteer" className="py-20 bg-muted">
+    <section id="get-involved" className="py-20 bg-muted">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -245,8 +245,5 @@ export default function GetInvolved() {
     </section>
   );
 }
-
-
-
 
 
