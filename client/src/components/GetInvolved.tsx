@@ -28,9 +28,9 @@ export default function GetInvolved() {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
+    // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email) {
+      e.preventDefault();
       toast({
         title: "Required fields missing",
         description: "Please fill in your name and email address.",
@@ -39,20 +39,24 @@ export default function GetInvolved() {
       return;
     }
 
-    console.log('Volunteer signup:', formData);
-    
+    // Show success message
     toast({
       title: "Thank you for joining!",
       description: "We'll be in touch soon with volunteer opportunities.",
     });
 
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      message: ""
-    });
+    // Reset form after a brief delay to allow Netlify submission
+    setTimeout(() => {
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: ""
+      });
+    }, 100);
+    
+    // Allow native form submission to proceed for Netlify
   };
 
   const handleShareCampaign = async () => {
@@ -176,7 +180,14 @@ export default function GetInvolved() {
           <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center" data-testid="volunteer-form-title">
             Join Our Campaign
           </h3>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form 
+            name="volunteer-signup" 
+            method="POST" 
+            data-netlify="true"
+            onSubmit={handleSubmit} 
+            className="space-y-6"
+          >
+            <input type="hidden" name="form-name" value="volunteer-signup" />
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-card-foreground mb-2">First Name</label>
