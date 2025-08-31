@@ -30,6 +30,7 @@ export default function GetInvolved() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email) {
       toast({
         title: "Required fields missing",
@@ -44,25 +45,15 @@ export default function GetInvolved() {
         console.log("Development mode - Form data:", formData);
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // Post to the already-registered Netlify form "contact-form"
-        const payload: Record<string, string> = {
-          "form-name": "contact-form",   // ← ensure contact-form is used
-          "bot-field": "",
-          "*redirect": "/",              // prevent any stray 404 after submit
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message
-        };
+        // PRODUCTION: do it exactly like the working contact form
+        const form = e.target as HTMLFormElement;
+        const netlifyFormData = new FormData(form);
 
-        const res = await fetch("/?no-cache=1", {
+        await fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(payload).toString()
+          body: new URLSearchParams(netlifyFormData as any).toString()
         });
-
-        if (!res.ok) throw new Error(`Netlify returned ${res.status}`);
       }
 
       toast({
@@ -77,7 +68,7 @@ export default function GetInvolved() {
         phone: "",
         message: ""
       });
-    } catch (error) {
+    } catch {
       toast({
         title: "Error",
         description: "There was a problem submitting your form. Please try again.",
@@ -197,17 +188,16 @@ export default function GetInvolved() {
             Join Our Campaign
           </h3>
 
-          {/* Wrap fields in a real form so submit is handled properly */}
+          {/* EXACT same pattern as the working contact form */}
           <form
-            name="contact-form"             // ← use the registered form name here too
+            name="volunteer-signup"
             method="POST"
             data-netlify="true"
             netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             className="space-y-6"
-            accept-charset="UTF-8"
           >
-            <input type="hidden" name="form-name" value="contact-form" />  {/* ← match the registered name */}
+            <input type="hidden" name="form-name" value="volunteer-signup" />
             <input type="hidden" name="bot-field" />
 
             <div className="space-y-6">
@@ -266,7 +256,7 @@ export default function GetInvolved() {
               </div>
 
               <div>
-                <label className="block text sm font-medium text-card-foreground mb-2">Message (Optional)</label>
+                <label className="block text-sm font-medium text-card-foreground mb-2">Message (Optional)</label>
                 <textarea
                   rows={3}
                   name="message"
@@ -294,6 +284,7 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
 
