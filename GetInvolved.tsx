@@ -27,7 +27,6 @@ export default function GetInvolved() {
     }));
   };
 
-  // ⬇⬇⬇ Fallback: real HTML form post to a Netlify-registered form (contact-form) ⬇⬇⬇
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -45,34 +44,25 @@ export default function GetInvolved() {
         console.log("Development mode - Form data:", formData);
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // Build a real <form> and submit it. Netlify will intercept because "contact-form" is registered.
-        const f = document.createElement("form");
-        f.method = "POST";
-        f.action = "/"; // Netlify intercepts before any SPA routing
-        f.style.display = "none";
-
-        const add = (name: string, value: string) => {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = name;
-          input.value = value;
-          f.appendChild(input);
+        // Post to the already-registered Netlify form "contact-form"
+        const payload: Record<string, string> = {
+          "form-name": "contact-form",   // ← ensure contact-form is used
+          "bot-field": "",
+          "*redirect": "/",              // prevent any stray 404 after submit
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          message: formData.message
         };
 
-        // IMPORTANT: use a registered form name (contact-form) to avoid 404 immediately
-        add("form-name", "contact-form");
-        add("bot-field", "");
-        add("*redirect", "/"); // after submit, go back home silently
+        const res = await fetch("/?no-cache=1", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(payload).toString()
+        });
 
-        add("firstName", formData.firstName);
-        add("lastName", formData.lastName);
-        add("email", formData.email);
-        add("phone", formData.phone);
-        add("message", formData.message);
-
-        document.body.appendChild(f);
-        f.submit(); // full, classic form submit (Netlify-safe)
-        return; // prevent showing toast before navigation
+        if (!res.ok) throw new Error(`Netlify returned ${res.status}`);
       }
 
       toast({
@@ -87,7 +77,7 @@ export default function GetInvolved() {
         phone: "",
         message: ""
       });
-    } catch {
+    } catch (error) {
       toast({
         title: "Error",
         description: "There was a problem submitting your form. Please try again.",
@@ -95,7 +85,6 @@ export default function GetInvolved() {
       });
     }
   };
-  // ⬆⬆⬆ End fallback ⬆⬆⬆
 
   const handleShareCampaign = async () => {
     const shareData = {
@@ -208,16 +197,17 @@ export default function GetInvolved() {
             Join Our Campaign
           </h3>
 
-          {/* Form wrapper unchanged (no styling/wording change) */}
+          {/* Wrap fields in a real form so submit is handled properly */}
           <form
-            name="volunteer-signup"
+            name="contact-form"             // ← use the registered form name here too
             method="POST"
             data-netlify="true"
             netlify-honeypot="bot-field"
             onSubmit={handleSubmit}
             className="space-y-6"
+            accept-charset="UTF-8"
           >
-            <input type="hidden" name="form-name" value="volunteer-signup" />
+            <input type="hidden" name="form-name" value="contact-form" />  {/* ← match the registered name */}
             <input type="hidden" name="bot-field" />
 
             <div className="space-y-6">
@@ -276,7 +266,7 @@ export default function GetInvolved() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-card-foreground mb-2">Message (Optional)</label>
+                <label className="block text sm font-medium text-card-foreground mb-2">Message (Optional)</label>
                 <textarea
                   rows={3}
                   name="message"
@@ -304,6 +294,7 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
 
