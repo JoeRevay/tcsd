@@ -27,8 +27,7 @@ export default function GetInvolved() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     
     // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email) {
@@ -209,14 +208,23 @@ export default function GetInvolved() {
           <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center" data-testid="volunteer-form-title">
             Join Our Campaign
           </h3>
-          <form 
-            name="volunteer-signup" 
-            method="POST" 
-            data-netlify="true"
-            onSubmit={handleSubmit} 
-            className="space-y-6"
-          >
-            <input type="hidden" name="form-name" value="volunteer-signup" />
+          <div className="space-y-6">
+            {/* Hidden form for Netlify detection */}
+            {!import.meta.env.DEV && (
+              <form 
+                name="volunteer-signup" 
+                method="POST" 
+                data-netlify="true"
+                style={{ display: 'none' }}
+              >
+                <input type="hidden" name="form-name" value="volunteer-signup" />
+                <input type="text" name="firstName" />
+                <input type="text" name="lastName" />
+                <input type="email" name="email" />
+                <input type="tel" name="phone" />
+                <textarea name="message"></textarea>
+              </form>
+            )}
             <div className="grid md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-card-foreground mb-2">First Name</label>
@@ -286,14 +294,14 @@ export default function GetInvolved() {
             
             <div className="text-center">
               <button 
-                type="submit" 
+                onClick={handleSubmit}
                 className="bg-accent text-accent-foreground px-8 py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
                 data-testid="button-submit-volunteer"
               >
                 Join the Campaign
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </section>
