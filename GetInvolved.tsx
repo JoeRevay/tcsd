@@ -45,9 +45,9 @@ export default function GetInvolved() {
         console.log("Development mode - Form data:", formData);
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // Production: submit to Netlify with explicit payload
+        // HOTFIX: Post to the already-registered Netlify form "contact-form"
         const payload: Record<string, string> = {
-          "form-name": "volunteer-signup",
+          "form-name": "contact-form",   // ← hotfix (was "volunteer-signup")
           "bot-field": "",
           "*redirect": "/",
           firstName: formData.firstName,
@@ -143,157 +143,8 @@ export default function GetInvolved() {
           <div className="h-1 w-16 bg-accent mx-auto mb-6"></div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto" data-testid="get-involved-subtitle">
             Want to support Joe's campaign? Whether you're interested in volunteering, displaying a yard sign, or sharing with friends — your help matters.
-          </p>
-        </div>
+          <
 
-        <div className="grid md:grid-cols-3 gap-8 mb-12">
-          <div className="bg-card rounded-xl p-8 text-center shadow-lg border border-border">
-            <div className="text-4xl mb-4">📢</div>
-            <h3 className="text-xl font-bold text-card-foreground mb-4">Spread the Word</h3>
-            <p className="text-muted-foreground mb-6">
-              Share Joe's message with friends, family, and neighbors. Word of mouth is our most powerful tool.
-            </p>
-            <button
-              onClick={handleShareCampaign}
-              className="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors duration-200 font-semibold"
-              data-testid="share-campaign-button"
-            >
-              Share Campaign
-            </button>
-          </div>
-
-          <div className="bg-card rounded-xl p-8 text-center shadow-lg border border-border">
-            <div className="text-4xl mb-4">🪧</div>
-            <h3 className="text-xl font-bold text-card-foreground mb-4">Yard Signs</h3>
-            <p className="text-muted-foreground mb-6">
-              Display a yard sign to show your support and increase visibility in the community.
-            </p>
-            <button
-              onClick={() => (window.location.href = "mailto:JoeRevay4TCSD@gmail.com?subject=Yard Sign Request")}
-              className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors duration-200 font-semibold"
-            >
-              Request a Sign
-            </button>
-          </div>
-
-          <div className="bg-card rounded-xl p-8 text-center shadow-lg border border-border">
-            <div className="text-4xl mb-4">🤝</div>
-            <h3 className="text-xl font-bold text-card-foreground mb-4">Volunteer</h3>
-            <p className="text-muted-foreground mb-6">
-              Join our team of volunteers for placing yard signs, door-to-door canvassing, and event support.
-            </p>
-            <button
-              onClick={handleJoinTeam}
-              className="bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors duration-200 font-semibold"
-              data-testid="join-team-button"
-            >
-              Join the Team
-            </button>
-          </div>
-        </div>
-
-        {/* Volunteer Registration Form */}
-        <div id="volunteer-form" className="bg-card rounded-2xl p-8 border border-border">
-          <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center" data-testid="volunteer-form-title">
-            Join Our Campaign
-          </h3>
-
-        {/* Wrap fields in a real form so submit is handled properly */}
-          <form
-            name="volunteer-signup"
-            method="POST"
-            data-netlify="true"
-            netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
-            className="space-y-6"
-          >
-            <input type="hidden" name="form-name" value="volunteer-signup" />
-            <input type="hidden" name="bot-field" />
-
-            <div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-card-foreground mb-2">First Name</label>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
-                    placeholder="Enter your first name"
-                    data-testid="input-firstName"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-card-foreground mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
-                    placeholder="Enter your last name"
-                    data-testid="input-lastName"
-                  />
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-card-foreground mb-2">Email Address</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
-                    placeholder="Enter your email"
-                    data-testid="input-email"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-card-foreground mb-2">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
-                    placeholder="Enter your phone number"
-                    data-testid="input-phone"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-card-foreground mb-2">Message (Optional)</label>
-                <textarea
-                  rows={3}
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
-                  placeholder="Tell us why you support Joe's campaign"
-                  data-testid="textarea-message"
-                />
-              </div>
-
-              <div className="text-center">
-                <button
-                  type="submit"
-                  className="bg-accent text-accent-foreground px-8 py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
-                  data-testid="button-submit-volunteer"
-                >
-                  Join the Campaign
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 
 
