@@ -9,6 +9,36 @@ interface ContactFormData {
   message: string;
 }
 
+// …imports unchanged…
+
+export default function Contact() {
+  // …state + handlers unchanged…
+
+  return (
+    <section id="contact" className="py-20 bg-muted">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* …left column unchanged… */}
+
+        {/* Contact Form */}
+        <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
+          <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">Send a Message</h3>
+
+          <form
+            name="contact-form"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"   // ← add this
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            {/* Netlify needs these hidden fields */}
+            <input type="hidden" name="form-name" value="contact-form" />
+            <input type="hidden" name="bot-field" />  {/* ← honeypot, stays invisible */}
+
+            <div className="grid grid-cols-2 gap-4">
+              {/* …ALL your inputs unchanged… */}
+
+
 export default function Contact() {
   const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>({
