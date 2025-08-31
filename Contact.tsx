@@ -27,8 +27,7 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     
     // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
@@ -141,13 +140,29 @@ export default function Contact() {
           <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
             <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">Send a Message</h3>
             
-            <form 
-              name="contact-form" 
-              {...(!import.meta.env.DEV && { method: "POST", "data-netlify": "true" })}
-              onSubmit={handleSubmit} 
-              className="space-y-6"
-            >
-              {!import.meta.env.DEV && <input type="hidden" name="form-name" value="contact-form" />}
+            <div className="space-y-6">
+              {/* Hidden form for Netlify detection */}
+              {!import.meta.env.DEV && (
+                <form 
+                  name="contact-form" 
+                  method="POST" 
+                  data-netlify="true"
+                  style={{ display: 'none' }}
+                >
+                  <input type="hidden" name="form-name" value="contact-form" />
+                  <input type="text" name="firstName" />
+                  <input type="text" name="lastName" />
+                  <input type="email" name="email" />
+                  <select name="subject">
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Education Policy Question">Education Policy Question</option>
+                    <option value="Meeting Request">Meeting Request</option>
+                    <option value="Media Inquiry">Media Inquiry</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <textarea name="message"></textarea>
+                </form>
+              )}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
@@ -219,13 +234,13 @@ export default function Contact() {
               </div>
               
               <button 
-                type="submit" 
+                onClick={handleSubmit}
                 className="w-full bg-accent text-accent-foreground py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
                 data-testid="contact-button-submit"
               >
                 Send Message
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>
