@@ -143,12 +143,11 @@ export default function Contact() {
             
             <form 
               name="contact-form" 
-              method="POST" 
-              data-netlify="true"
+              {...(!import.meta.env.DEV && { method: "POST", "data-netlify": "true" })}
               onSubmit={handleSubmit} 
               className="space-y-6"
             >
-              <input type="hidden" name="form-name" value="contact-form" />
+              {!import.meta.env.DEV && <input type="hidden" name="form-name" value="contact-form" />}
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
