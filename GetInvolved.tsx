@@ -41,21 +41,28 @@ export default function GetInvolved() {
     }
 
     try {
-      // Create form data for Netlify
-      const formData2 = new FormData();
-      formData2.append('form-name', 'volunteer-signup');
-      formData2.append('firstName', formData.firstName);
-      formData2.append('lastName', formData.lastName);
-      formData2.append('email', formData.email);
-      formData2.append('phone', formData.phone);
-      formData2.append('message', formData.message);
+      // In development, just simulate the submission
+      if (import.meta.env.DEV) {
+        console.log('Development mode - Form data:', formData);
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 500));
+      } else {
+        // Create form data for Netlify (production)
+        const formData2 = new FormData();
+        formData2.append('form-name', 'volunteer-signup');
+        formData2.append('firstName', formData.firstName);
+        formData2.append('lastName', formData.lastName);
+        formData2.append('email', formData.email);
+        formData2.append('phone', formData.phone);
+        formData2.append('message', formData.message);
 
-      // Submit to Netlify
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(formData2 as any).toString()
-      });
+        // Submit to Netlify
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(formData2 as any).toString()
+        });
+      }
 
       // Show success message
       toast({
