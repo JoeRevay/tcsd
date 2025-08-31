@@ -27,7 +27,8 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
     // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
@@ -43,23 +44,16 @@ export default function Contact() {
       // In development, just simulate the submission
       if (import.meta.env.DEV) {
         console.log('Development mode - Form data:', formData);
-        // Simulate network delay
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // Create form data for Netlify (production)
-        const formData2 = new FormData();
-        formData2.append('form-name', 'contact-form');
-        formData2.append('firstName', formData.firstName);
-        formData2.append('lastName', formData.lastName);
-        formData2.append('email', formData.email);
-        formData2.append('subject', formData.subject);
-        formData2.append('message', formData.message);
-
-        // Submit to Netlify
-        await fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(formData2 as any).toString()
+        // Production - submit to Netlify
+        const form = e.target as HTMLFormElement;
+        const netlifyFormData = new FormData(form);
+        
+        await fetch("/", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(netlifyFormData as any).toString(),
         });
       }
 
@@ -140,29 +134,14 @@ export default function Contact() {
           <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
             <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">Send a Message</h3>
             
-            <div className="space-y-6">
-              {/* Hidden form for Netlify detection */}
-              {!import.meta.env.DEV && (
-                <form 
-                  name="contact-form" 
-                  method="POST" 
-                  data-netlify="true"
-                  style={{ display: 'none' }}
-                >
-                  <input type="hidden" name="form-name" value="contact-form" />
-                  <input type="text" name="firstName" />
-                  <input type="text" name="lastName" />
-                  <input type="email" name="email" />
-                  <select name="subject">
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Education Policy Question">Education Policy Question</option>
-                    <option value="Meeting Request">Meeting Request</option>
-                    <option value="Media Inquiry">Media Inquiry</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <textarea name="message"></textarea>
-                </form>
-              )}
+            <form 
+              name="contact-form" 
+              method="POST" 
+              data-netlify="true"
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
+              <input type="hidden" name="form-name" value="contact-form" />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
@@ -234,13 +213,13 @@ export default function Contact() {
               </div>
               
               <button 
-                onClick={handleSubmit}
+                type="submit"
                 className="w-full bg-accent text-accent-foreground py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
                 data-testid="contact-button-submit"
               >
                 Send Message
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
