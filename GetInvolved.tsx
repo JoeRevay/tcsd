@@ -49,6 +49,7 @@ export default function GetInvolved() {
         const payload: Record<string, string> = {
           "form-name": "volunteer-signup",
           "bot-field": "",
+          "*redirect": "/",          // ← added: prevents any stray 404 after submit
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -240,7 +241,7 @@ export default function GetInvolved() {
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-card-foreground mb-2">Email Address</label>
-                <input
+                  <input
                     type="email"
                     name="email"
                     value={formData.email}
@@ -293,6 +294,7 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
 
