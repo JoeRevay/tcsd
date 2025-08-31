@@ -45,11 +45,11 @@ export default function GetInvolved() {
         console.log("Development mode - Form data:", formData);
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // Production: submit to Netlify with explicit payload (ensures form-name is present)
+        // Production: submit to Netlify with explicit payload
         const payload: Record<string, string> = {
           "form-name": "volunteer-signup",
           "bot-field": "",
-          "*redirect": "/",          // ← added: prevents any stray 404 after submit
+          "*redirect": "/",
           firstName: formData.firstName,
           lastName: formData.lastName,
           email: formData.email,
@@ -57,7 +57,7 @@ export default function GetInvolved() {
           message: formData.message
         };
 
-        const res = await fetch("/", {
+        const res = await fetch("/?no-cache=1", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           body: new URLSearchParams(payload).toString()
@@ -198,7 +198,7 @@ export default function GetInvolved() {
             Join Our Campaign
           </h3>
 
-          {/* Wrap fields in a real form so submit is handled properly */}
+        {/* Wrap fields in a real form so submit is handled properly */}
           <form
             name="volunteer-signup"
             method="POST"
@@ -294,6 +294,7 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
 
