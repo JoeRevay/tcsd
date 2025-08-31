@@ -16,64 +16,47 @@ export default function Contact() {
     lastName: "",
     email: "",
     subject: "General Inquiry",
-    message: "",
+    message: ""
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
-  // Netlify Forms submit (no backend needed)
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const handleSubmit = (e: React.FormEvent) => {
+    // Validate required fields
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.message) {
+      e.preventDefault();
       toast({
         title: "Required fields missing",
         description: "Please fill in all required fields.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
 
-    try {
-      const formEl = e.currentTarget;
-      const payload = new FormData(formEl);
-      // Netlify requires this field
-      payload.append("form-name", "contact");
+    // Show success message
+    toast({
+      title: "Message sent!",
+      description: "Thank you for your message. Joe will get back to you soon.",
+    });
 
-      await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(payload as any).toString(),
-      });
-
-      toast({
-        title: "Message sent!",
-        description: "Thank you for your message. Joe will get back to you soon.",
-      });
-
+    // Reset form after a brief delay to allow Netlify submission
+    setTimeout(() => {
       setFormData({
         firstName: "",
         lastName: "",
         email: "",
         subject: "General Inquiry",
-        message: "",
+        message: ""
       });
-      formEl.reset(); // clear any native fields too
-    } catch {
-      toast({
-        title: "Send failed",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
-    }
+    }, 100);
+    
+    // Allow native form submission to proceed for Netlify
   };
 
   return (
@@ -88,15 +71,13 @@ export default function Contact() {
             Have questions about my platform or want to discuss education issues? I'd love to hear from you.
           </p>
         </div>
-
+        
         <div className="grid md:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="space-y-8">
             <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
-              <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-info-title">
-                Get in Touch
-              </h3>
-
+              <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-info-title">Get in Touch</h3>
+              
               <div className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <div className="bg-accent text-accent-foreground w-12 h-12 rounded-full flex items-center justify-center">
@@ -104,8 +85,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-foreground">Email</h4>
-                    <a
-                      href="mailto:JoeRevay4TCSD@gmail.com"
+                    <a 
+                      href="mailto:JoeRevay4TCSD@gmail.com" 
                       className="text-accent hover:text-accent/80 transition-colors duration-200"
                       data-testid="contact-email"
                     >
@@ -113,7 +94,7 @@ export default function Contact() {
                     </a>
                   </div>
                 </div>
-
+                
                 <div className="flex items-center space-x-4">
                   <div className="bg-accent text-accent-foreground w-12 h-12 rounded-full flex items-center justify-center">
                     📍
@@ -126,75 +107,65 @@ export default function Contact() {
               </div>
             </div>
           </div>
-
-          {/* Contact Form (Netlify Forms enabled) */}
+          
+          {/* Contact Form */}
           <div className="bg-background rounded-xl p-8 shadow-lg border border-border">
-            <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">
-              Send a Message
-            </h3>
-
-            <form
-              onSubmit={handleSubmit}
-              name="contact"
-              method="POST"
+            <h3 className="text-2xl font-bold text-foreground mb-6" data-testid="contact-form-title">Send a Message</h3>
+            
+            <form 
+              name="contact-form" 
+              method="POST" 
               data-netlify="true"
-              data-netlify-honeypot="bot-field"
+              onSubmit={handleSubmit} 
               className="space-y-6"
             >
-              {/* Netlify required hidden fields */}
-              <input type="hidden" name="form-name" value="contact" />
-              <input type="hidden" name="bot-field" />
-
+              <input type="hidden" name="form-name" value="contact-form" />
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
-                  <input
-                    type="text"
+                  <input 
+                    type="text" 
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200" 
                     placeholder="First name"
                     data-testid="contact-input-firstName"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-2">Last Name</label>
-                  <input
-                    type="text"
+                  <input 
+                    type="text" 
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
+                    className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200" 
                     placeholder="Last name"
                     data-testid="contact-input-lastName"
                   />
                 </div>
               </div>
-
+              
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-                <input
-                  type="email"
+                <input 
+                  type="email" 
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200" 
                   placeholder="your.email@example.com"
                   data-testid="contact-input-email"
                 />
               </div>
-
+              
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Subject</label>
-                <select
+                <select 
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  required
                   className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
                   data-testid="contact-select-subject"
                 >
@@ -205,23 +176,22 @@ export default function Contact() {
                   <option value="Other">Other</option>
                 </select>
               </div>
-
+              
               <div>
                 <label className="block text-sm font-medium text-foreground mb-2">Message</label>
-                <textarea
-                  rows={5}
+                <textarea 
+                  rows={5} 
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200"
+                  className="w-full px-4 py-3 rounded-lg bg-input border border-border text-foreground focus:ring-2 focus:ring-accent focus:border-accent transition-colors duration-200" 
                   placeholder="Your message here..."
                   data-testid="contact-textarea-message"
                 />
               </div>
-
-              <button
-                type="submit"
+              
+              <button 
+                type="submit" 
                 className="w-full bg-accent text-accent-foreground py-4 rounded-lg hover:bg-accent/90 transition-colors duration-200 font-semibold text-lg shadow-lg"
                 data-testid="contact-button-submit"
               >
@@ -234,4 +204,3 @@ export default function Contact() {
     </section>
   );
 }
-
