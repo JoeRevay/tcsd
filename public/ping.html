@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head><meta charset="utf-8"><title>Ping Netlify Forms</title></head>
+  <body>
+    <!-- Minimal, plain HTML form posting to your registered form -->
+    <form name="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/">
+      <input type="hidden" name="form-name" value="contact-form" />
+      <input type="hidden" name="bot-field" />
+      <input type="text"   name="firstName" value="Ping" />
+      <input type="text"   name="lastName"  value="Test" />
+      <input type="email"  name="email"     value="ping@example.com" />
+      <input type="text"   name="subject"   value="General Inquiry" />
+      <textarea name="message">Ping</textarea>
+      <button type="submit">Send</button>
+    </form>
+  </body>
+</html>
