@@ -19,6 +19,8 @@
   <!-- Hidden static form so Netlify detects it at build time -->
 
   <body>
+    <a href="#donate" class="donate-btn" style="position:fixed;right:16px;bottom:16px;z-index:9999;background:#2A317D;color:#fff;padding:12px 16px;border-radius:8px;text-decoration:none;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,.2)">Donate</a>
+
     <!-- Netlify static forms (hidden for detection) -->
     <form name="contact-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="text" name="firstName" />
@@ -48,6 +50,15 @@
     </form>
 
     <div id="root"></div>
+
+    <section id="donate" style="padding:2rem 0;">
+      <h2 style="font-family: inherit; margin: 0 0 1rem;">Donate</h2>
+      <div style="position:relative;overflow:hidden;height:450px;width:100%;max-width:900px;margin:0 auto;">
+        <iframe title='Donation form powered by Zeffy' style='position: absolute; border: 0; top:0;left:0;bottom:0;right:0;width:100%;height:100%' src='https://www.zeffy.com/embed/donation-form/joe-revay-for-twinsburg-school-board' allowpaymentrequest allowTransparency="true" loading="lazy"></iframe>
+      </div>
+      <noscript><p><a href="https://www.zeffy.com/embed/donation-form/joe-revay-for-twinsburg-school-board">Open the donation form</a></p></noscript>
+    </section>
+
     <script type="module" src="/src/main.tsx"></script>
     <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
     <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
