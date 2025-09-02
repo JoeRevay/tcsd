@@ -1,14 +1,2 @@
-# netlify.toml — app at repo ROOT
-[build]
-  command = "npm ci && npm run build"
-  publish = "dist"
 
-[build.environment]
-  NODE_VERSION = "20"
-
-# Single-page app fallback so client routes don’t 404
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
 
