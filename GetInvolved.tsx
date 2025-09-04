@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type React from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface VolunteerFormData {
@@ -27,7 +28,8 @@ export default function GetInvolved() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // ✅ Explicit, Netlify-friendly URL-encoded submit (no empty submissions)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validate required fields
@@ -45,14 +47,23 @@ export default function GetInvolved() {
         console.log("Development mode - Form data:", formData);
         await new Promise(resolve => setTimeout(resolve, 500));
       } else {
-        // PRODUCTION: do it exactly like the working contact form
-        const form = e.target as HTMLFormElement;
-        const netlifyFormData = new FormData(form);
+        const form = e.currentTarget;
+
+        // Build URL-encoded payload explicitly (includes form-name + honeypot)
+        const params = new URLSearchParams();
+        params.append("form-name", "volunteer-signup"); // MUST match form name
+        params.append("firstName", formData.firstName || "");
+        params.append("lastName",  formData.lastName  || "");
+        params.append("email",     formData.email     || "");
+        params.append("phone",     formData.phone     || "");
+        params.append("message",   formData.message   || "");
+        const honeypot = (form.querySelector('[name="bot-field"]') as HTMLInputElement)?.value || "";
+        params.append("bot-field", honeypot);
 
         await fetch("/", {
           method: "POST",
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(netlifyFormData as any).toString()
+          body: params.toString()
         });
       }
 
@@ -89,10 +100,10 @@ export default function GetInvolved() {
         await navigator.share(shareData);
       } else {
         await navigator.clipboard.writeText(window.location.href);
-        toast({
+        {toast({
           title: "Campaign link copied!",
           description: "Share it with your friends and family."
-        });
+        });}
       }
     } catch {
       toast({
@@ -284,6 +295,7 @@ export default function GetInvolved() {
     </section>
   );
 }
+
 
 
 
