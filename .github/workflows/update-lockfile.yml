@@ -1,6 +1,7 @@
 name: Update package-lock after pkg.json edits
+
 on:
-  workflow_dispatch: {}     # run manually from Actions tab
+  workflow_dispatch: {}     # run manually from the Actions tab
 
 permissions:
   contents: write
@@ -9,18 +10,43 @@ jobs:
   lockfile:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
+          cache: 'npm'
+
+      - name: Show Node & npm
+        run: |
+          node -v
+          npm -v
+
+      # This updates package-lock.json to match package.json WITHOUT installing deps
+      - name: Regenerate lockfile (no install)
+        run: |
+          npm config set fund false
+          npm config set audit false
+          npm install --package-lock-only
+        env:
+          # In case peer deps are messy, this relaxes resolution just for the lockfile calc
+          NPM_CONFIG_LEGACY_PEER_DEPS: 'true'
+
+      # OPTIONAL fallback if the step above ever fails
+      - name: Fallback: try legacy peer deps (no install)
+        if: failure()
+        run: |
+          npm install --package-lock-only --legacy-peer-deps || true
+
       - name: Commit lockfile changes
         run: |
-          if ! git diff --quiet; then
+          if ! git diff --quiet -- package-lock.json; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add package-lock.json
-            git commit -m "chore: update package-lock after esbuild/drizzle-kit overrides"
+            git commit -m "chore: update package-lock after esbuild overrides"
             git push
           else
             echo "No lockfile changes."
