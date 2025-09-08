@@ -1,7 +1,7 @@
 name: Update package-lock after pkg.json edits
 
 on:
-  workflow_dispatch: {}     # run manually from the Actions tab
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,32 +17,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
-      - name: Show Node & npm
-        run: |
-          node -v
-          npm -v
-
-      # This updates package-lock.json to match package.json WITHOUT installing deps
-      - name: Regenerate lockfile (no install)
+      - name: Regenerate package-lock.json (no install)
         run: |
           npm config set fund false
           npm config set audit false
-          npm install --package-lock-only
-        env:
-          # In case peer deps are messy, this relaxes resolution just for the lockfile calc
-          NPM_CONFIG_LEGACY_PEER_DEPS: 'true'
-
-      # OPTIONAL fallback if the step above ever fails
-      - name: Fallback: try legacy peer deps (no install)
-        if: failure()
-        run: |
-          npm install --package-lock-only --legacy-peer-deps || true
+          npm install --package-lock-only --legacy-peer-deps
 
       - name: Commit lockfile changes
         run: |
-          if ! git diff --quiet -- package-lock.json; then
+          if [[ -n "$(git status --porcelain package-lock.json)" ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add package-lock.json
@@ -50,3 +34,5 @@ jobs:
             git push
           else
             echo "No lockfile changes."
+          fi
+
